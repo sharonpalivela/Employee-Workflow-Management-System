@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.crypto.spec.SecretKeySpec;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
@@ -14,12 +15,12 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class JwtService {
 
-    private static final String SECRET =
-            "mySuperSecretKeyForJwtAuthentication123456789";
+    @Value("${jwt.secret}")
+    private String secret;
 
     private Key getSigningKey() {
         return new SecretKeySpec(
-                SECRET.getBytes(),
+                secret.getBytes(),
                 SignatureAlgorithm.HS256.getJcaName()
         );
     }
