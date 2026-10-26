@@ -1,3 +1,4 @@
+
 package com.sharon.workflow_system.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,13 +18,22 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public AuthService(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
     }
 
     public String register(RegisterRequest request) {
+
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new RuntimeException(
+                    "An account with this email already exists.");
+        }
+
         User user = new User();
 
         user.setName(request.getName());
