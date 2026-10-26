@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || "";
+
 function App() {
   const [loggedIn, setLoggedIn] = useState(
     !!localStorage.getItem("token")
